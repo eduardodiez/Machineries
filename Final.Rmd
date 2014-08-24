@@ -223,7 +223,7 @@ accelplot <- qplot(Movement, Accel, data=accel, fill=Classe, geom=c("boxplot")) 
 ```
 
 
-```{r DataPlot, fig.cap="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration by the localization of each accelerometer. Also, each class of exercise is associated by a color.", fig.subcap="uno"}
+```{r DataPlot1, fig.cap="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration by the localization of each accelerometer. Also, each class of exercise is associated by a color.", fig.subcap="uno"}
 
 library("grid")
 library("gridExtra")
@@ -365,7 +365,7 @@ predictionsGBM <- predict(modelFitGBM, orgtesting)
 
 Follow a panel figure of ROC plots that provide tools to select possibly optimal models and to discard sub-optimal ones independently from the class. In this panel, we can observe the good response of the KNN method ---k-nearest neighbor algorithm--- beside the two random forest ones. Every plot shows, additionally, the process time inverted for each particular algorithm and the whole figure give us an idea of the extensive variety or results.
 
-```{r ROCplot, fig.cap="Figure 2. The ROC curves for the models with the total AUC (Area Under the Curve) with 95% confidence interval and the total process time running in Mobile Intel Core 2 T6400 at 2GHz with 4GB", fig.scap="dos", fig.height=5, fig.width=8}
+```{r ROCplot2, fig.cap="Figure 2. The ROC curves for the models with the total AUC (Area Under the Curve) with 95% confidence interval and the total process time running in Mobile Intel Core 2 T6400 at 2GHz with 4GB", fig.scap="dos", fig.height=5, fig.width=8}
 
 #let's plot the roc curves of the models
 # define a palette gently with colorblind people
