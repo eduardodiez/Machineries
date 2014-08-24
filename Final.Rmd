@@ -89,6 +89,12 @@ MyAnswers<-c('B',
 
 ## Introduction
 
+This document explaining how we chose the forecast for 20 cases about the way in which six participants do exercises according to data [from this link](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises) to finally submit the forecast as the final part of the project.
+
+We'll talk of the predictors that were selected as "features" to develop the model and about the various training methods we used whose results were compared and provided aid to make the final decision based on the accuracy they showed.
+
+
+
 The goal of your project is to predict the manner in which they did the exercise. 
 This is the "classe" variable in the training set. 
 
@@ -121,8 +127,9 @@ training data perfectly
 • Can expect a model to generalize well if it explains the training data
 surprisingly well given the complexity of the model
 
-## The Data
+## The Data and Features
 
+In this project we will use data from four accelerometers on the belt, forearm, arm, and dumbell of six participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. So, the data contain the raw information from the gyroscopes and also some variables derivates from the raw as mean, standard deviation among other few.
 
 ```{r DataCleaning, echo=FALSE, eval=TRUE}
 
@@ -134,7 +141,7 @@ orgtraining <- read.csv("pml-training.csv")
 orgtesting <- read.csv("pml-testing.csv")
 
 # After inspection we think this are features and the rest garbage
-mypredictors <- c("pitch_belt", "yaw_belt","total_accel_belt",  
+mypredictors <- c("roll_belt","pitch_belt", "yaw_belt","total_accel_belt",  
                   "roll_arm", "pitch_arm", "yaw_arm", "total_accel_arm",
                   "roll_dumbbell", "pitch_dumbbell", "yaw_dumbbell", "total_accel_dumbbell", 
                   "roll_forearm", "pitch_forearm", "yaw_forearm", "total_accel_forearm")
@@ -159,8 +166,7 @@ orgtesting$total_accel_forearm <- as.numeric(orgtesting$total_accel_forearm)
 
 ```
 
-
-After inspection and work with the data we arrive to the conclusion that the variable we can considerer as real feature are:
+After the inspection and work around with the data we arrive to the conclusion that the variables we can understand as real features with added value to be used to model the problem effectively are those about roll, yaw, pitch and total acceleration that correspond with each of the four locations where the gyroscopes are registering the movements.
 
 
 ```{r DataInspection, echo=FALSE}
@@ -171,13 +177,13 @@ library("reshape2")
 
 #
 roll <- subset(orgtraining, select=c("roll_arm", 
-                                     #"roll_belt", 
+                                     "roll_belt", 
                                      "roll_dumbbell", 
                                      "roll_forearm",
                                      "classe" ))
 
 names(roll) <- c("arm",
-                 #"belt",
+                 "belt",
                  "dumbbell",
                  "forearm",
                  "classe")
@@ -311,10 +317,10 @@ grid.arrange(rollplot, pitchplot, yawplot, accelplot, ncol=1)
 
 ```
 
-Finally we confirm that `roll_bell` was correlated with two other features therefore was remove, giving the final features as: 
 
+After removal the other variables, we proceeded to the proper ordering of the remaining to present them graphically, so one can easily detect any anomaly that may exist and whereafter was computed the correlation between them. The variable **roll_bell** was found correlated with other two of them thus, we decided to eliminate it from the dataset.
 
-## The Features
+Below we show the 15 variables with which we make our model
 
 ```{r TheFeatures, results='asis'}
 
@@ -322,8 +328,8 @@ library("Gmisc")
 #library("xtable")
 myFeatures <- read.table(header=T, 
                          text='Feature
-                         1	pitch_belt
-                         2	yaw_belt
+                         1  pitch_belt
+                         2  yaw_belt
                          3	total_accel_belt
                          
                          4	roll_arm
@@ -350,6 +356,18 @@ htmlTable(myFeatures, align="cc",
           )
 
 ```
+
+Finally we confirm that `roll_bell` was correlated with two other features therefore was remove, giving the final features as: 
+
+```{r roll_belt_out}
+
+training$roll_belt <- NULL
+testing$roll_belt <- NULL
+
+
+```
+
+
 
                   
 ```{r Features, eval=FALSE, echo=FALSE}

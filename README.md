@@ -6,6 +6,12 @@ Eduardo B. Diez --- August 2014
 
 ## Introduction
 
+This document explaining how we chose the forecast for 20 cases about the way in which six participants do exercises according to data [from this link](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises) to finally submit the forecast as the final part of the project.
+
+We'll talk of the predictors that were selected as "features" to develop the model and about the various training methods we used whose results were compared and provided aid to make the final decision based on the accuracy they showed.
+
+
+
 The goal of your project is to predict the manner in which they did the exercise. 
 This is the "classe" variable in the training set. 
 
@@ -38,23 +44,23 @@ training data perfectly
  Can expect a model to generalize well if it explains the training data
 surprisingly well given the complexity of the model
 
-## The Data
+## The Data and Features
+
+In this project we will use data from four accelerometers on the belt, forearm, arm, and dumbell of six participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. So, the data contain the raw information from the gyroscopes and also some variables derivates from the raw as mean, standard deviation among other few.
 
 
 
-
-
-After inspection and work with the data we arrive to the conclusion that the variable we can considerer as real feature are:
+After the inspection and work around with the data we arrive to the conclusion that the variables we can understand as real features with added value to be used to model the problem effectively are those about roll, yaw, pitch and total acceleration that correspond with each of the four locations where the gyroscopes are registering the movements.
 
 
 
 
 <img src="img/DataPlot.png" title="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration." alt="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration." width="100%\textwidth" />
 
-Finally we confirm that `roll_bell` was correlated with two other features therefore was remove, giving the final features as: 
 
+After removal the other variables, we proceeded to the proper ordering of the remaining to present them graphically, so one can easily detect any anomaly that may exist and whereafter was computed the correlation between them. The variable **roll_bell** was found correlated with other two of them thus, we decided to eliminate it from the dataset.
 
-## The Features
+Below we show the 15 variables with which we make our model
 
 <table class='gmisc_table' style='border-collapse: collapse;' >
 	<thead>
@@ -130,6 +136,12 @@ Finally we confirm that `roll_bell` was correlated with two other features there
 	Summary of predictors to use.</td></tr></tfoot>
 </table>
 
+Finally we confirm that `roll_bell` was correlated with two other features therefore was remove, giving the final features as: 
+
+
+
+
+
                   
 
 
@@ -178,7 +190,7 @@ We can check the statistics values of the models we've run
 		<td style='text-align: center;'>0.99</td>
 		<td style='text-align: center;'>0.97</td>
 		<td style='text-align: center;'>0.98</td>
-		<td style='text-align: center;'>0.98</td>
+		<td style='text-align: center;'>0.99</td>
 		<td style='text-align: center;'>0.99</td>
 	</tr>
 	<tr>
@@ -356,11 +368,11 @@ This boosting method do ...
 	</tr>
 	<tr>
 		<td style='text-align: left;'>KNN</td>
-		<td style='text-align: center;'>0.8970</td>
-		<td style='text-align: center;'>0.9186</td>
+		<td style='text-align: center;'>0.8977</td>
+		<td style='text-align: center;'>0.9191</td>
 		<td style='' colspan='1'>&nbsp;</td>
-		<td style='text-align: center;'>0.9123</td>
-		<td style='text-align: center;'>0.9245</td>
+		<td style='text-align: center;'>0.9128</td>
+		<td style='text-align: center;'>0.9250</td>
 		<td style='' colspan='1'>&nbsp;</td>
 		<td style='text-align: center;'>20/20</td>
 	</tr>
@@ -386,11 +398,11 @@ This boosting method do ...
 	</tr>
 	<tr>
 		<td style='border-bottom: 2px solid grey; text-align: left;'>RF2</td>
-		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9807</td>
-		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9847</td>
+		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9803</td>
+		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9845</td>
 		<td style='border-bottom: 2px solid grey;' colspan='1'>&nbsp;</td>
-		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9817</td>
-		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9873</td>
+		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9815</td>
+		<td style='border-bottom: 2px solid grey; text-align: center;'>0.9871</td>
 		<td style='border-bottom: 2px solid grey;' colspan='1'>&nbsp;</td>
 		<td style='border-bottom: 2px solid grey; text-align: center;'>20/20</td>
 	</tr>
