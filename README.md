@@ -6,43 +6,9 @@ Eduardo B. Diez --- August 2014
 
 ## Introduction
 
-This document explaining how we chose the forecast for 20 cases about the way in which six participants do exercises according to data [from this link](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises) to finally submit the forecast as the final part of the project.
+This document is born with the vocation to be accessible as a web page from this [gh-page](http://eduardodiez.github.io/Machineries/) and the source code and the compile result can be found in this [github](https://github.com/eduardodiez/Machineries) repository. The report try to explain how we chose the forecast for 20 cases about the way in which six participants do exercises according with the <i>datae</i> [from this link](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises) to finally submit the forecast as the final part of the project.
 
 We'll talk of the predictors that were selected as "features" to develop the model and about the various training methods we used whose results were compared and provided aid to make the final decision based on the accuracy they showed.
-
-
-
-The goal of your project is to predict the manner in which they did the exercise. 
-This is the "classe" variable in the training set. 
-
-You may use any of the other variables to predict with. 
-You should create a report describing 
-
-1. how you built your model, 
-
-2. how you used cross validation, 
-
-3. what you think the expected out of sample error is, 
-
-4. and why you made the choices you did.
-
-
-
-You will also use your prediction model to predict
-20 different test cases.
-
-1 Has the student submitted a github repo?
-
-2 Do the authors describe what they expect the out of sample error to be and estimate the
-error appropriately with cross-validation?
-r: 
-Trading off goodness of fit against model complexity
- If the model has as many degrees of
-freedom as the data, it can fit the
-training data perfectly
- But the objective in ML is generalization
- Can expect a model to generalize well if it explains the training data
-surprisingly well given the complexity of the model
 
 ## The Data and Features
 
@@ -56,7 +22,6 @@ After the inspection and work around with the data we arrive to the conclusion t
 
 
 <img src="img/DataPlot.png" title="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration." alt="Figure 1. Initial set of features selected; Roll, Pitch, Yaw and total acceleration." width="100%\textwidth" />
-
 
 After removal the other variables, we proceeded to the proper ordering of the remaining to present them graphically, so one can easily detect any anomaly that may exist and whereafter was computed the correlation between them. The variable **roll_bell** was found correlated with other two of them thus, we decided to eliminate it from the dataset.
 
@@ -136,18 +101,19 @@ Below we show the 15 variables with which we make our model
 	Summary of predictors to use.</td></tr></tfoot>
 </table>
 
-Finally we confirm that `roll_bell` was correlated with two other features therefore was remove, giving the final features as: 
 
-
-
-
-
-                  
 
 
 ## The machineries
 
+Before proceeding is important to note the following to the reader:
+In the source document `final.Rmd` the chunk corresponding to this point has the option `eval = false` to avoid running this code which is very intensive in cpu load and runtime. Additionally, this chunk with name  "Machineries" has several other models that have not been included in the writing of this paper ---plots and tables--- for lack of space, but is operational and again time consumming.
 
+Once the data was prepared, the dataset was partitioned  60-40 between training and testing. All methods have similar schemes of cross-validation control with the default values, except for the two random forest, RF1 and RF2, which employ their own bootstrap characteristics in order to evaluate the OOB. Also, one boosting method was include, the GBM. In the source code can be found  lots of additional calculations to check the results, prior to show and resume them.
+
+
+
+Follow a panel figure of ROC plots that provide tools to select possibly optimal models and to discard suboptimal ones independently from the class. In this panel, we can observe the good response of the KNN method ---k-nearest neighbor algorithm--- beside the two random forest ones. Every plot shows, aditionaly, the process time inverted for each particular algorithm and the whole figure give us an idea of the extensive variety or results.
 
 <img src="img/ROCplot.png" title="Figure 2. The ROC curves for the models with the total AUC (Area Under the Curve) with 95% confidence interval and the total process time running in Mobile Intel Core 2 T6400 at 2GHz with 4GB" alt="Figure 2. The ROC curves for the models with the total AUC (Area Under the Curve) with 95% confidence interval and the total process time running in Mobile Intel Core 2 T6400 at 2GHz with 4GB" width="100%\textwidth" />
 
@@ -421,7 +387,7 @@ This boosting method do ...
 For cross-sectional data, cross-validation works as follows.
 
     Select observation i for the test set, and use the remaining observations in the training set. Compute the error on the test observation.
-    Repeat the above step for i=1,2,,N where N is the total number of observations.
+    Repeat the above step for i=1,2,â¦,N where N is the total number of observations.
     Compute the forecast accuracy measures based on the errors obtained.
 
 
